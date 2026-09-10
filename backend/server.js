@@ -161,6 +161,8 @@ Please generate a comprehensive, structured roadmap that includes:
 Format the response as clear, well-organized HTML that can be rendered directly in a browser. Use semantic HTML and inline CSS for styling with a clean, professional grayscale theme (black text on white background with subtle gray accents). Make it print-friendly and visually organized with clear sections, headings, and bullet points.`;
 
     try {
+        console.log('📤 Sending request to Claude API (model: claude-opus-5)...');
+
         const message = await client.messages.create({
             model: "claude-opus-5",
             max_tokens: 8000,
@@ -172,21 +174,32 @@ Format the response as clear, well-organized HTML that can be rendered directly 
             ]
         });
 
-        console.log('Claude API Response:', {
+        console.log('✅ Claude API Response received:', {
+            type: typeof message,
+            keys: Object.keys(message),
             stop_reason: message.stop_reason,
+            content_type: Array.isArray(message.content) ? 'array' : typeof message.content,
             content_length: message.content?.length,
-            first_content: message.content?.[0]
+            first_content_type: message.content?.[0]?.type,
+            first_content_text_type: typeof message.content?.[0]?.text,
+            first_content_text_length: message.content?.[0]?.text?.length || 0
         });
 
-        const content = message.content[0]?.text;
-        if (!content) {
-            console.error('ERROR: Claude API content is empty or missing');
-            console.error('Full message object:', JSON.stringify(message, null, 2));
-            return '<h2>Error: Could not generate roadmap content</h2><p>The AI response was empty. Please try again.</p>';
+        const textContent = message.content?.[0]?.text;
+
+        if (typeof textContent !== 'string' || textContent.length === 0) {
+            console.error('❌ ERROR: Invalid content from Claude');
+            console.error('Content value:', textContent);
+            console.error('Full message:', JSON.stringify(message, null, 2).substring(0, 1000));
+            return '<h2>Error: Invalid AI Response</h2><p>Claude did not return valid text content. Please try again.</p>';
         }
-        return content;
+
+        console.log(`✅ Generated ${textContent.length} characters of roadmap content`);
+        return textContent;
+
     } catch (error) {
-        console.error('Claude API Error:', error);
+        console.error('❌ Claude API Error:', error.message);
+        console.error('Error details:', error);
         throw new Error(`Failed to generate roadmap: ${error.message}`);
     }
 }
