@@ -559,13 +559,22 @@
     <!-- Welcome Overlay -->
     <div class="welcome-overlay" id="welcomeOverlay">
         <div class="welcome-modal">
-            <svg class="welcome-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 20 50 L 50 30 L 80 50 L 75 55 Q 50 45 25 55 Z" fill="#0077be" stroke="#00d4ff" stroke-width="2"></path>
-                <circle cx="50" cy="25" r="8" fill="#00d4ff"></circle>
-                <line x1="50" y1="33" x2="50" y2="70" stroke="#0077be" stroke-width="2"></line>
-                <polyline points="35,70 35,85 50,75 65,85 65,70" fill="none" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                <path d="M 40 75 L 40 60 M 35 65 L 40 60 L 45 65" fill="none" stroke="#667eea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M 60 75 L 60 60 M 55 65 L 60 60 L 65 65" fill="none" stroke="#667eea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Rocket body -->
+                <rect x="85" y="50" width="30" height="80" fill="#0f2c66" rx="5"/>
+                <!-- Window -->
+                <circle cx="100" cy="65" r="7" fill="#00bbff"/>
+                <!-- Left fin -->
+                <polygon points="85,110 70,140 85,125" fill="#1a5490"/>
+                <!-- Right fin -->
+                <polygon points="115,110 130,140 115,125" fill="#1a5490"/>
+                <!-- Flames -->
+                <polygon points="90,130 100,160 110,130 105,140 95,140" fill="#00bbff"/>
+                <polygon points="92,135 100,155 108,135 105,143 95,143" fill="#0088cc"/>
+                <!-- Stars trail -->
+                <circle cx="70" cy="40" r="3" fill="#00bbff" opacity="0.7"/>
+                <circle cx="60" cy="55" r="2" fill="#00bbff" opacity="0.5"/>
+                <circle cx="130" cy="45" r="3" fill="#00bbff" opacity="0.7"/>
             </svg>
             <h1>🎓 College Roadmap Generator</h1>
             <p>Any University • Any Major • Any Career Path</p>
