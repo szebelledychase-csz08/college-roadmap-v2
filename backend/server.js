@@ -172,7 +172,12 @@ Format the response as clear, well-organized HTML that can be rendered directly 
             ]
         });
 
-        return message.content[0].text;
+        const content = message.content[0]?.text;
+        if (!content) {
+            console.error('Claude API returned empty content:', message);
+            throw new Error('Claude API returned empty response');
+        }
+        return content;
     } catch (error) {
         console.error('Claude API Error:', error);
         throw new Error(`Failed to generate roadmap: ${error.message}`);
