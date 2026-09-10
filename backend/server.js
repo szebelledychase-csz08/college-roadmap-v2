@@ -108,7 +108,7 @@ Output ONLY valid HTML. No thinking, explanations, or preamble.`;
 
         const message = await Promise.race([
             client.messages.create({
-                model: "claude-3-5-sonnet-20241022", // Faster model
+                model: "claude-opus-5", // Proven working model
                 max_tokens: 4000, // Reduced for speed
                 messages: [{ role: "user", content: prompt }]
             }),
