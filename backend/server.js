@@ -80,7 +80,14 @@ const dbAll = util.promisify(db.all.bind(db));
 
 // Claude AI Roadmap Generator
 async function generateRoadmapWithClaude(userData) {
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    console.log('🔑 API Key check:', {
+        loaded: !!apiKey,
+        length: apiKey?.length,
+        prefix: apiKey?.substring(0, 15) + '...'
+    });
+
+    const client = new Anthropic({ apiKey });
 
     const prompt = `You are an expert academic advisor and career strategist. Generate a personalized 4-year college roadmap for the following student:
 
