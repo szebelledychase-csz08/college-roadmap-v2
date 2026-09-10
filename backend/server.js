@@ -172,10 +172,17 @@ Format the response as clear, well-organized HTML that can be rendered directly 
             ]
         });
 
+        console.log('Claude API Response:', {
+            stop_reason: message.stop_reason,
+            content_length: message.content?.length,
+            first_content: message.content?.[0]
+        });
+
         const content = message.content[0]?.text;
         if (!content) {
-            console.error('Claude API returned empty content:', message);
-            throw new Error('Claude API returned empty response');
+            console.error('ERROR: Claude API content is empty or missing');
+            console.error('Full message object:', JSON.stringify(message, null, 2));
+            return '<h2>Error: Could not generate roadmap content</h2><p>The AI response was empty. Please try again.</p>';
         }
         return content;
     } catch (error) {
