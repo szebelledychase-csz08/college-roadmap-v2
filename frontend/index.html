@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Roadmap Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #0f2c66 0%, #1a5490 25%, #0088cc 50%, #00bbff 75%, #1e7fa0 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            color: #333;
+        }
+
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .welcome-overlay.hidden {
+            display: none;
+        }
+
+        .welcome-overlay.fade-out {
+            animation: fadeOut 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        .welcome-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .welcome-modal h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #0f2c66;
+        }
+
+        .welcome-modal p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .welcome-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .welcome-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(15, 44, 102, 0.3);
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #0f2c66;
+            padding-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #0f2c66;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: #666;
+            font-size: 1.05rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #0088cc;
+            background: #f9f9f9;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .generate-btn {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(15, 44, 102, 0.3);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .export-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .export-btn:hover:not(:disabled) {
+            background: #e0e0e0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0088cc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            color: #c00;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .roadmap-result {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .roadmap-result.show {
+            display: block;
+        }
+
+        .roadmap-iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #060;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .regenerate-btn {
+            background: #ffa500;
+            color: white;
+            margin-top: 1rem;
+        }
+
+        .regenerate-btn:hover {
+            background: #ff8c00;
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Overlay -->
+    <div id="welcomeOverlay" class="welcome-overlay">
+        <div class="welcome-modal">
+            <svg class="welcome-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="30" r="20" fill="#0f2c66"/>
+                <path d="M 30 55 Q 50 70 70 55" stroke="#0f2c66" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 35 50 L 40 60" stroke="#0f2c66" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 65 50 L 60 60" stroke="#0f2c66" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            <h1>Create Your Roadmap</h1>
+            <p>Get a personalized 4-year college and career roadmap powered by AI. From course selection to career strategy, we've got you covered.</p>
+            <button class="welcome-btn" id="startBtn">Create my roadmap!</button>
+        </div>
+    </div>
+
+    <!-- Main Form -->
+    <div class="container">
+        <header>
+            <h1>🎓 College Roadmap Generator</h1>
+            <p>Your personalized path to success</p>
+        </header>
+
+        <form id="roadmapForm">
+            <div class="error" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="university">University *</label>
+                    <input type="text" id="university" name="university" placeholder="e.g., Stanford University" required>
+                </div>
+                <div class="form-group">
+                    <label for="major">Major *</label>
+                    <input type="text" id="major" name="major" placeholder="e.g., Computer Science" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="minor">Minor (Optional)</label>
+                    <input type="text" id="minor" name="minor" placeholder="e.g., Business">
+                </div>
+                <div class="form-group">
+                    <label for="careerPath">Target Career Path *</label>
+                    <input type="text" id="careerPath" name="careerPath" placeholder="e.g., Software Engineer" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="academicStrengths">Academic Strengths *</label>
+                <textarea id="academicStrengths" name="academicStrengths" placeholder="What are your strongest academic areas?" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="careerInterests">Career Interests & Goals *</label>
+                <textarea id="careerInterests" name="careerInterests" placeholder="What interests you most about your career path?" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="motivations">Personal Motivations (Optional)</label>
+                <textarea id="motivations" name="motivations" placeholder="What drives and motivates you?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="background">Unique Background (Optional)</label>
+                <textarea id="background" name="background" placeholder="Any unique experiences or background you'd like to share?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="format">Export Format *</label>
+                <select id="format" name="format" required>
+                    <option value="html">HTML (View in Browser)</option>
+                    <option value="pdf">PDF (Download)</option>
+                    <option value="both">Both HTML & PDF</option>
+                </select>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Generating your personalized roadmap...</p>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="generate-btn" id="generateBtn">Generate Roadmap</button>
+            </div>
+        </form>
+
+        <div class="roadmap-result" id="roadmapResult">
+            <div class="success-message show">
+                ✅ Your roadmap has been generated!
+            </div>
+            <iframe id="roadmapIframe" class="roadmap-iframe"></iframe>
+            <button class="generate-btn regenerate-btn" id="regenerateBtn">Regenerate Roadmap</button>
+        </div>
+    </div>
+
+    <script>
+        // Welcome screen logic
+        const welcomeOverlay = document.getElementById('welcomeOverlay');
+        const startBtn = document.getElementById('startBtn');
+
+        function initWelcomeScreen() {
+            if (!sessionStorage.getItem('welcomeShown')) {
+                welcomeOverlay.style.display = 'flex';
+                sessionStorage.setItem('welcomeShown', 'true');
+            } else {
+                welcomeOverlay.classList.add('hidden');
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            welcomeOverlay.classList.add('fade-out');
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+            }, 500);
+        });
+
+        // Form persistence
+        const formInputs = document.querySelectorAll('#roadmapForm input, #roadmapForm textarea, #roadmapForm select');
+
+        formInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                localStorage.setItem(input.id, input.value);
+            });
+        });
+
+        function restoreFormData() {
+            formInputs.forEach(input => {
+                const saved = localStorage.getItem(input.id);
+                if (saved) {
+                    input.value = saved;
+                }
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initWelcomeScreen();
+            restoreFormData();
+        });
+
+        // Form submission
+        const form = document.getElementById('roadmapForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('errorMessage');
+        const roadmapResult = document.getElementById('roadmapResult');
+        const roadmapIframe = document.getElementById('roadmapIframe');
+        const regenerateBtn = document.getElementById('regenerateBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMessage.classList.remove('show');
+            errorMessage.textContent = '';
+
+            const formData = new FormData(form);
+
+            generateBtn.disabled = true;
+            loading.classList.add('show');
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    body: formData,
+                    timeout: 120000
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.htmlUrl) {
+                    roadmapIframe.src = data.htmlUrl;
+                    roadmapResult.classList.add('show');
+                    regenerateBtn.dataset.roadmapId = data.roadmapId;
+                } else {
+                    throw new Error('No roadmap URL returned');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = `Error: ${error.message}`;
+                errorMessage.classList.add('show');
+            } finally {
+                loading.classList.remove('show');
+                generateBtn.disabled = false;
+            }
+        });
+
+        regenerateBtn.addEventListener('click', () => {
+            roadmapResult.classList.remove('show');
+            form.reset();
+            localStorage.clear();
+            generateBtn.click();
+        });
+    </script>
+</body>
+</html>
