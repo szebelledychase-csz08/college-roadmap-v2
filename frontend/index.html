@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Roadmap Generator - Your Path to Success</title>
+    <title>College Roadmap Generator - Any University, Any Career</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
@@ -13,25 +13,20 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #0f2c66 0%, #1a5490 25%, #0088cc 50%, #00bbff 75%, #1e7fa0 100%);
-            --button-gradient: linear-gradient(135deg, #0077be 0%, #00d4ff 100%);
-        }
-
-        html, body {
-            height: 100%;
-            width: 100%;
+            --primary: #2d3748;
+            --secondary: #4a5568;
+            --accent: #667eea;
+            --success: #48bb78;
+            --error: #f56565;
+            --light: #f7fafc;
+            --dark: #1a202c;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: var(--primary-gradient);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2c66 0%, #1a5490 25%, #0088cc 50%, #00bbff 75%, #1e7fa0 100%);
             min-height: 100vh;
-            color: #333;
-            line-height: 1.6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
+            padding: 2rem;
         }
 
         /* Welcome Overlay */
@@ -39,63 +34,59 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(5px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
-            animation: welcomeFadeIn 0.5s ease-in-out;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         .welcome-overlay.hidden {
-            display: none !important;
-        }
-
-        .welcome-overlay.fade-out {
-            animation: welcomeFadeOut 0.5s ease-in-out forwards;
+            animation: fadeOut 0.5s ease-in-out forwards;
             pointer-events: none;
         }
 
-        @keyframes welcomeFadeIn {
+        @keyframes fadeOut {
             from {
-                opacity: 0;
+                opacity: 1;
             }
             to {
-                opacity: 1;
+                opacity: 0;
             }
         }
 
-        @keyframes welcomeFadeOut {
+        @keyframes fadeIn {
             from {
-                opacity: 1;
+                opacity: 0;
             }
             to {
-                opacity: 0;
+                opacity: 1;
             }
         }
 
         .welcome-modal {
             background: white;
             border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 3rem 2rem;
-            max-width: 520px;
-            width: 100%;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-            animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 600px;
+            width: 90%;
+            animation: slideUp 0.5s ease-in-out;
         }
 
-        @keyframes modalSlideIn {
+        @keyframes slideUp {
             from {
+                transform: translateY(30px);
                 opacity: 0;
-                transform: scale(0.95) translateY(-20px);
             }
             to {
+                transform: translateY(0);
                 opacity: 1;
-                transform: scale(1) translateY(0);
             }
         }
 
@@ -103,10 +94,11 @@
             width: 100px;
             height: 100px;
             margin: 0 auto 1.5rem;
-            animation: logoFloat 3s ease-in-out infinite;
+            display: block;
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes logoFloat {
+        @keyframes float {
             0%, 100% {
                 transform: translateY(0px);
             }
@@ -116,192 +108,332 @@
         }
 
         .welcome-modal h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.75rem;
-            color: #0f2c66;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
         }
 
         .welcome-modal p {
-            font-size: 1.05rem;
-            color: #555;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .welcome-modal p:nth-of-type(2) {
             margin-bottom: 2rem;
-            line-height: 1.7;
         }
 
         .welcome-btn {
-            background: var(--button-gradient);
+            background: linear-gradient(135deg, #0077be 0%, #00d4ff 100%);
             color: white;
+            padding: 1rem 2.5rem;
             border: none;
-            padding: 0.95rem 2.5rem;
-            font-size: 1.05rem;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 1.1rem;
             font-weight: 600;
-            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
         }
 
         .welcome-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 119, 190, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
         }
 
         .welcome-btn:active {
-            transform: translateY(-1px);
+            transform: translateY(0);
         }
 
-        /* Main Container */
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
             border-radius: 16px;
-            padding: 2.5rem;
-            max-width: 750px;
-            width: 100%;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            .welcome-modal {
-                padding: 2rem 1.5rem;
-            }
-
-            .welcome-modal h1 {
-                font-size: 1.8rem;
-            }
-        }
-
-        /* Header */
         header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 3rem 2rem;
             text-align: center;
-            margin-bottom: 2.5rem;
-            border-bottom: 3px solid #0f2c66;
-            padding-bottom: 1.5rem;
         }
 
         header h1 {
-            font-size: 2.2rem;
-            color: #0f2c66;
+            font-size: 2.5rem;
             margin-bottom: 0.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
         }
 
         header p {
-            color: #777;
-            font-size: 1.05rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        /* Form Styling */
+        .content {
+            padding: 3rem;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .info-box {
+            background: #edf2f7;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
         .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.6rem;
             font-weight: 600;
-            color: #333;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
             font-size: 0.95rem;
-            letter-spacing: 0.2px;
         }
 
-        input, textarea, select {
+        label span.required {
+            color: var(--error);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
             width: 100%;
-            padding: 0.85rem 1rem;
-            border: 2px solid #ddd;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
             border-radius: 8px;
             font-family: inherit;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-            background: #fafafa;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
         }
 
-        input:focus, textarea:focus, select:focus {
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
             outline: none;
-            border-color: #0088cc;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         textarea {
             resize: vertical;
-            min-height: 90px;
-            font-family: inherit;
+            min-height: 100px;
+            font-size: 0.95rem;
         }
 
-        /* Grid Layout */
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 600px) {
-            .row {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-
-        /* Messages */
-        .error, .success-message {
-            padding: 1rem 1.2rem;
+        .upload-area {
+            border: 2px dashed var(--accent);
             border-radius: 8px;
-            margin-bottom: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: #f7fafc;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #edf2f7;
+        }
+
+        .upload-area.dragover {
+            background: #e8ebff;
+            border-color: #764ba2;
+            transform: scale(1.02);
+        }
+
+        .upload-area input[type="file"] {
             display: none;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .uploaded-files {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .file-item {
+            background: #edf2f7;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 4px solid var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .file-name {
+            flex: 1;
+            word-break: break-word;
+            margin-right: 1rem;
+            color: #2d3748;
+        }
+
+        .remove-btn {
+            background: var(--error);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .remove-btn:hover {
+            background: #e53e3e;
+        }
+
+        .output-format-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .format-option {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .format-option input[type="radio"] {
+            display: none;
+        }
+
+        .format-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s;
+            cursor: pointer;
             font-weight: 500;
-            animation: slideDown 0.3s ease-out;
         }
 
-        .error {
-            background: #fee;
-            color: #c33;
-            border-left: 4px solid #c33;
+        .format-option input[type="radio"]:checked + .format-label {
+            border-color: var(--accent);
+            background: #edf2f7;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .success-message {
-            background: #efe;
-            color: #060;
-            border-left: 4px solid #060;
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
-        .error.show, .success-message.show {
-            display: block;
+        button {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #764ba2 100%);
+            color: white;
+            min-width: 200px;
         }
 
-        /* Loading State */
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #2d3748;
+            min-width: 150px;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
         .loading {
             display: none;
             text-align: center;
-            padding: 2.5rem;
-        }
-
-        .loading.show {
-            display: block;
+            padding: 2rem;
         }
 
         .spinner {
-            border: 4px solid #f0f0f0;
-            border-top: 4px solid #0088cc;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid var(--accent);
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -314,367 +446,602 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loading p {
-            color: #666;
-            font-size: 1rem;
+        .error-message {
+            background: #ffe5e5;
+            border-left: 4px solid var(--error);
+            padding: 1rem;
+            border-radius: 6px;
+            color: #c92a2a;
+            display: none;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
         }
 
-        /* Buttons */
-        .button-group {
-            display: flex;
-            gap: 1rem;
+        .success-message {
+            background: #e5ffe5;
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            border-radius: 6px;
+            color: #22543d;
+            display: none;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .results {
+            display: none;
             margin-top: 2rem;
         }
 
-        button {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        .result-card {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-            letter-spacing: 0.3px;
+            color: #2d3748;
+            margin-bottom: 1rem;
         }
 
-        .generate-btn {
-            background: var(--button-gradient);
+        .result-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .meta-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: var(--accent);
             color: white;
-            box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
-        .generate-btn:hover:not(:disabled) {
+        .download-btn:hover {
+            background: #764ba2;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 119, 190, 0.4);
-        }
-
-        .generate-btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         .regenerate-btn {
-            background: #ffa500;
+            background: var(--success);
             color: white;
-            margin-top: 1rem;
-            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
         }
 
         .regenerate-btn:hover {
-            background: #ff8c00;
-            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.4);
+            background: #38a169;
+            transform: translateY(-2px);
         }
 
-        .export-btn {
-            background: #f0f0f0;
-            color: #333;
-            border: 2px solid #ddd;
-        }
-
-        .export-btn:hover:not(:disabled) {
-            background: #e5e5e5;
-            border-color: #bbb;
-        }
-
-        /* Roadmap Result */
-        .roadmap-result {
-            margin-top: 2rem;
-            display: none;
-        }
-
-        .roadmap-result.show {
-            display: block;
-            animation: slideDown 0.4s ease-out;
-        }
-
-        .roadmap-iframe {
-            width: 100%;
-            height: 700px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        /* Utility Classes */
-        .required-note {
-            font-size: 0.85rem;
-            color: #999;
-            margin-top: 0.3rem;
-        }
-
-        @media print {
-            body {
-                background: white;
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
             }
-            .container {
-                box-shadow: none;
-                padding: 0;
+
+            .content {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <!-- Welcome Overlay -->
-    <div id="welcomeOverlay" class="welcome-overlay">
+    <div class="welcome-overlay" id="welcomeOverlay">
         <div class="welcome-modal">
-            <!-- Logo SVG -->
-            <svg class="welcome-logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#0f2c66;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#0088cc;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <!-- Graduation Cap -->
-                <circle cx="60" cy="35" r="18" fill="url(#logoGradient)"/>
-                <path d="M 30 48 L 60 62 L 90 48" stroke="url(#logoGradient)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M 60 62 L 60 75" stroke="url(#logoGradient)" stroke-width="3" stroke-linecap="round"/>
-                <!-- Paths/Steps -->
-                <circle cx="40" cy="90" r="6" fill="url(#logoGradient)"/>
-                <circle cx="60" cy="100" r="6" fill="url(#logoGradient)"/>
-                <circle cx="80" cy="90" r="6" fill="url(#logoGradient)"/>
-                <path d="M 40 90 L 60 100 L 80 90" stroke="url(#logoGradient)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="welcome-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 20 50 L 50 30 L 80 50 L 75 55 Q 50 45 25 55 Z" fill="#0077be" stroke="#00d4ff" stroke-width="2"></path>
+                <circle cx="50" cy="25" r="8" fill="#00d4ff"></circle>
+                <line x1="50" y1="33" x2="50" y2="70" stroke="#0077be" stroke-width="2"></line>
+                <polyline points="35,70 35,85 50,75 65,85 65,70" fill="none" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                <path d="M 40 75 L 40 60 M 35 65 L 40 60 L 45 65" fill="none" stroke="#667eea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M 60 75 L 60 60 M 55 65 L 60 60 L 65 65" fill="none" stroke="#667eea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
-
-            <h1>Create Your Roadmap</h1>
-            <p>Get a personalized 4-year college and career roadmap powered by AI. Discover your perfect path from course selection to career strategy.</p>
+            <h1>🎓 College Roadmap Generator</h1>
+            <p>Any University • Any Major • Any Career Path</p>
+            <p>Personalized, AI-powered academic planning for your future</p>
             <button class="welcome-btn" id="startBtn">Create my roadmap!</button>
         </div>
     </div>
 
-    <!-- Main Container -->
-    <div class="container" id="mainContainer">
+    <div class="container">
         <header>
-            <h1>🎓 College Roadmap Generator</h1>
-            <p>Your personalized path to success</p>
+            <h1>College Roadmap Generator</h1>
+            <p>Any University • Any Major • Any Career Path</p>
+            <p style="margin-top: 0.5rem; font-style: italic; opacity: 0.8;">Personalized, AI-powered academic planning for your future</p>
         </header>
 
-        <form id="roadmapForm">
-            <div class="error" id="errorMessage"></div>
-            <div class="success-message" id="successMessage"></div>
+        <div class="content">
+            <div class="error-message" id="errorMsg"></div>
+            <div class="success-message" id="successMsg"></div>
 
-            <!-- Personal Information -->
-            <div class="row">
-                <div class="form-group">
-                    <label for="fullName">Full Name <span style="color: #c33;">*</span></label>
-                    <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address <span style="color: #c33;">*</span></label>
-                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
-                </div>
-            </div>
+            <!-- Step 1: University & Major Info -->
+            <div class="section">
+                <h2>
+                    <span class="step-number">1</span>
+                    University & Program
+                </h2>
+                <p style="color: #4a5568; margin-bottom: 1rem;">Tell us about your desired academic path</p>
 
-            <!-- University & Major -->
-            <div class="row">
-                <div class="form-group">
-                    <label for="university">University <span style="color: #c33;">*</span></label>
-                    <input type="text" id="university" name="university" placeholder="e.g., Stanford University" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="university">University Name <span class="required">*</span></label>
+                        <input type="text" id="university" placeholder="e.g., Stanford University, MIT, UC Berkeley" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="major">Desired Major <span class="required">*</span></label>
+                        <input type="text" id="major" placeholder="e.g., Computer Science, Finance, Biology" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="major">Major <span style="color: #c33;">*</span></label>
-                    <input type="text" id="major" name="major" placeholder="e.g., Computer Science" required>
-                </div>
-            </div>
 
-            <!-- Minor & Career Path -->
-            <div class="row">
-                <div class="form-group">
-                    <label for="minor">Minor (Optional)</label>
-                    <input type="text" id="minor" name="minor" placeholder="e.g., Business Administration">
-                </div>
-                <div class="form-group">
-                    <label for="careerPath">Target Career Path <span style="color: #c33;">*</span></label>
-                    <input type="text" id="careerPath" name="careerPath" placeholder="e.g., Software Engineer" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="minor">Desired Minor (Optional)</label>
+                        <input type="text" id="minor" placeholder="e.g., Economics, Mathematics, Psychology">
+                    </div>
+                    <div class="form-group">
+                        <label for="careerPath">Target Career Path <span class="required">*</span></label>
+                        <input type="text" id="careerPath" placeholder="e.g., Machine Learning Engineer, Investment Banker" required>
+                    </div>
                 </div>
             </div>
 
-            <!-- Academic & Career Details -->
-            <div class="form-group">
-                <label for="academicStrengths">Academic Strengths <span style="color: #c33;">*</span></label>
-                <textarea id="academicStrengths" name="academicStrengths" placeholder="What are your strongest academic areas? (e.g., Mathematics, Writing, Problem-solving)" required></textarea>
+            <!-- Step 2: Upload Materials -->
+            <div class="section">
+                <h2>
+                    <span class="step-number">2</span>
+                    Upload Transcript (Optional)
+                </h2>
+                <p style="color: #4a5568; margin-bottom: 1rem;">Upload your high school or college transcript for better personalization</p>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <p style="font-weight: 600; margin-bottom: 0.5rem;">Drag and drop your transcript or click to upload</p>
+                    <p style="font-size: 0.9rem; color: #718096;">PDF, DOC, DOCX, or images (max 10MB)</p>
+                    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt">
+                </div>
+
+                <div class="uploaded-files" id="uploadedFilesList"></div>
             </div>
 
-            <div class="form-group">
-                <label for="careerInterests">Career Interests & Goals <span style="color: #c33;">*</span></label>
-                <textarea id="careerInterests" name="careerInterests" placeholder="What excites you about your career path? What are your specific goals?" required></textarea>
+            <!-- Step 3: Self Description -->
+            <div class="section">
+                <h2>
+                    <span class="step-number">3</span>
+                    About You
+                </h2>
+                <p style="color: #4a5568; margin-bottom: 1rem;">Help us personalize your roadmap</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="academicStrengths">Academic Strengths <span class="required">*</span></label>
+                        <textarea id="academicStrengths" placeholder="e.g., Strong in mathematics, excel at programming, enjoy hands-on projects..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="careerInterests">Career Interests & Goals <span class="required">*</span></label>
+                        <textarea id="careerInterests" placeholder="e.g., Want to lead AI products, interested in fintech innovation..." required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="motivations">Personal Motivations</label>
+                        <textarea id="motivations" placeholder="e.g., Driven by solving complex problems, want to work in tech..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="background">Unique Background (Optional)</label>
+                        <textarea id="background" placeholder="e.g., International student, first-generation, worked in tech..."></textarea>
+                    </div>
+                </div>
             </div>
 
-            <!-- Optional Details -->
-            <div class="form-group">
-                <label for="motivations">Personal Motivations (Optional)</label>
-                <textarea id="motivations" name="motivations" placeholder="What drives and motivates you? Any personal values or aspirations?"></textarea>
+            <!-- Step 4: Personal Info -->
+            <div class="section">
+                <h2>
+                    <span class="step-number">4</span>
+                    Personal Information
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullName" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" placeholder="your.email@example.com" required>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="background">Unique Background (Optional)</label>
-                <textarea id="background" name="background" placeholder="Any unique experiences, talents, or background you'd like us to know about?"></textarea>
+            <!-- Step 5: Output Format -->
+            <div class="section">
+                <h2>
+                    <span class="step-number">5</span>
+                    Output Format
+                </h2>
+
+                <div class="output-format-selector">
+                    <div class="format-option">
+                        <input type="radio" id="format-html" name="format" value="html" checked>
+                        <label for="format-html" class="format-label">
+                            🌐 HTML
+                        </label>
+                    </div>
+                    <div class="format-option">
+                        <input type="radio" id="format-pdf" name="format" value="pdf">
+                        <label for="format-pdf" class="format-label">
+                            📄 PDF
+                        </label>
+                    </div>
+                    <div class="format-option">
+                        <input type="radio" id="format-both" name="format" value="both">
+                        <label for="format-both" class="format-label">
+                            📦 Both
+                        </label>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    💡 <strong>Tip:</strong> HTML is great for quick viewing. PDF is best for printing and sharing.
+                </div>
             </div>
 
-            <!-- Export Format -->
-            <div class="form-group">
-                <label for="format">Export Format <span style="color: #c33;">*</span></label>
-                <select id="format" name="format" required>
-                    <option value="html">HTML (View in Browser)</option>
-                    <option value="pdf">PDF (Download)</option>
-                    <option value="both">Both HTML & PDF</option>
-                </select>
+            <!-- Generate Button -->
+            <div class="button-group">
+                <button class="btn-secondary" id="clearBtn" type="button">Clear Form</button>
+                <button class="btn-primary" id="generateBtn" type="button">Generate My Roadmap</button>
             </div>
 
             <!-- Loading State -->
-            <div class="loading" id="loading">
+            <div class="loading" id="loadingState">
                 <div class="spinner"></div>
-                <p>Generating your personalized roadmap...</p>
-                <p style="font-size: 0.85rem; color: #999; margin-top: 0.5rem;">This may take a minute...</p>
+                <p style="font-size: 1.1rem; color: #2d3748; font-weight: 500;">Generating your personalized roadmap...</p>
+                <p style="font-size: 0.9rem; color: #718096; margin-top: 0.5rem;">This may take 1-2 minutes as Claude AI creates a custom plan for you</p>
             </div>
 
-            <!-- Submit Button -->
-            <div class="button-group">
-                <button type="submit" class="generate-btn" id="generateBtn">Generate Roadmap</button>
-            </div>
-        </form>
+            <!-- Results -->
+            <div class="results" id="results">
+                <div class="result-card">
+                    <div class="result-title">✨ Your Roadmap is Ready!</div>
+                    <div class="result-meta">
+                        <div class="meta-item">
+                            <strong>University:</strong> <span id="resultUniversity"></span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Program:</strong> <span id="resultProgram"></span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Career Goal:</strong> <span id="resultCareer"></span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Generated:</strong> <span id="resultDate"></span>
+                        </div>
+                    </div>
+                    <div class="download-buttons" id="downloadButtons"></div>
+                </div>
 
-        <!-- Roadmap Result -->
-        <div class="roadmap-result" id="roadmapResult">
-            <div class="success-message show" style="margin-bottom: 1.5rem;">
-                ✅ Your roadmap has been generated successfully!
-            </div>
-            <iframe id="roadmapIframe" class="roadmap-iframe"></iframe>
-            <div class="button-group">
-                <button type="button" class="generate-btn regenerate-btn" id="regenerateBtn">Regenerate Roadmap</button>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="regenerate-btn" id="regenerateBtn" type="button">
+                        🔄 Generate Different Version
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Welcome Screen Management
-        const welcomeOverlay = document.getElementById('welcomeOverlay');
-        const startBtn = document.getElementById('startBtn');
-        const mainContainer = document.getElementById('mainContainer');
-
+        // Welcome Screen Logic
         function initWelcomeScreen() {
-            const welcomeShown = sessionStorage.getItem('welcomeShown');
-
-            if (welcomeShown === 'true') {
-                welcomeOverlay.classList.add('hidden');
+            if (sessionStorage.getItem('welcomeShown') === 'true') {
+                document.getElementById('welcomeOverlay').style.display = 'none';
             } else {
-                welcomeOverlay.style.display = 'flex';
+                document.getElementById('welcomeOverlay').style.display = 'flex';
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    sessionStorage.setItem('welcomeShown', 'true');
+                    document.getElementById('welcomeOverlay').classList.add('hidden');
+                    setTimeout(() => {
+                        document.getElementById('welcomeOverlay').style.display = 'none';
+                    }, 500);
+                });
             }
         }
 
-        startBtn.addEventListener('click', () => {
-            sessionStorage.setItem('welcomeShown', 'true');
-            welcomeOverlay.classList.add('fade-out');
-            setTimeout(() => {
-                welcomeOverlay.classList.add('hidden');
-            }, 500);
-        });
+        document.addEventListener('DOMContentLoaded', initWelcomeScreen);
 
         // Form Persistence
-        const formInputs = document.querySelectorAll('#roadmapForm input, #roadmapForm textarea, #roadmapForm select');
-        const form = document.getElementById('roadmapForm');
+        const formFields = [
+            'university', 'major', 'minor', 'careerPath',
+            'academicStrengths', 'careerInterests', 'motivations', 'background',
+            'fullName', 'email'
+        ];
 
-        // Save form data on input
-        formInputs.forEach(input => {
-            input.addEventListener('input', () => {
-                localStorage.setItem(`roadmap_${input.id}`, input.value);
-            });
-
-            input.addEventListener('change', () => {
-                localStorage.setItem(`roadmap_${input.id}`, input.value);
-            });
-        });
-
-        // Restore form data on page load
-        function restoreFormData() {
-            formInputs.forEach(input => {
-                const savedValue = localStorage.getItem(`roadmap_${input.id}`);
-                if (savedValue) {
-                    input.value = savedValue;
+        function saveFormData() {
+            const formData = {};
+            formFields.forEach(fieldId => {
+                const element = document.getElementById(fieldId);
+                if (element) {
+                    formData[fieldId] = element.value;
                 }
             });
+            localStorage.setItem('collegeRoadmapFormData', JSON.stringify(formData));
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            initWelcomeScreen();
+        function restoreFormData() {
+            const savedData = localStorage.getItem('collegeRoadmapFormData');
+            if (savedData) {
+                try {
+                    const formData = JSON.parse(savedData);
+                    formFields.forEach(fieldId => {
+                        const element = document.getElementById(fieldId);
+                        if (element && formData[fieldId]) {
+                            element.value = formData[fieldId];
+                        }
+                    });
+                } catch (e) {
+                    console.log('Could not restore form data');
+                }
+            }
+        }
+
+        window.addEventListener('load', () => {
             restoreFormData();
         });
 
-        // Form Submission
-        const generateBtn = document.getElementById('generateBtn');
-        const loading = document.getElementById('loading');
-        const errorMessage = document.getElementById('errorMessage');
-        const roadmapResult = document.getElementById('roadmapResult');
-        const roadmapIframe = document.getElementById('roadmapIframe');
-        const regenerateBtn = document.getElementById('regenerateBtn');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // Clear previous messages
-            errorMessage.classList.remove('show');
-            errorMessage.textContent = '';
-            roadmapResult.classList.remove('show');
-
-            const formData = new FormData(form);
-
-            generateBtn.disabled = true;
-            loading.classList.add('show');
-
-            try {
-                const response = await fetch('/api/generate', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `Server error: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                if (data.htmlUrl) {
-                    roadmapIframe.src = data.htmlUrl;
-                    roadmapResult.classList.add('show');
-                    regenerateBtn.dataset.roadmapId = data.roadmapId;
-
-                    // Scroll to result
-                    setTimeout(() => {
-                        roadmapResult.scrollIntoView({ behavior: 'smooth' });
-                    }, 300);
-                } else {
-                    throw new Error('No roadmap generated. Please try again.');
-                }
-
-            } catch (error) {
-                console.error('Generation Error:', error);
-                errorMessage.textContent = `⚠️ Error: ${error.message}`;
-                errorMessage.classList.add('show');
-            } finally {
-                loading.classList.remove('show');
-                generateBtn.disabled = false;
+        document.addEventListener('input', (e) => {
+            if (formFields.includes(e.target.id)) {
+                saveFormData();
             }
         });
 
-        // Regenerate Button
-        regenerateBtn.addEventListener('click', () => {
-            roadmapResult.classList.remove('show');
-            form.reset();
+        let uploadedFiles = [];
 
-            // Clear localStorage
-            formInputs.forEach(input => {
-                localStorage.removeItem(`roadmap_${input.id}`);
-            });
+        // File Upload
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadedFilesList = document.getElementById('uploadedFilesList');
 
-            generateBtn.click();
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
         });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.size > 10 * 1024 * 1024) {
+                    showError(`File "${file.name}" is too large (max 10MB)`);
+                    continue;
+                }
+                uploadedFiles.push(file);
+            }
+            renderFileList();
+        }
+
+        function renderFileList() {
+            uploadedFilesList.innerHTML = '';
+            uploadedFiles.forEach((file, index) => {
+                const div = document.createElement('div');
+                div.className = 'file-item';
+                div.innerHTML = `
+                    <span class="file-name">📎 ${file.name}</span>
+                    <button class="remove-btn" type="button" onclick="removeFile(${index})">×</button>
+                `;
+                uploadedFilesList.appendChild(div);
+            });
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            renderFileList();
+        }
+
+        // Validation
+        function validateForm() {
+            const university = document.getElementById('university').value.trim();
+            const major = document.getElementById('major').value.trim();
+            const careerPath = document.getElementById('careerPath').value.trim();
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const academicStrengths = document.getElementById('academicStrengths').value.trim();
+            const careerInterests = document.getElementById('careerInterests').value.trim();
+
+            if (!university) { showError('Please enter a university name'); return false; }
+            if (!major) { showError('Please enter your desired major'); return false; }
+            if (!careerPath) { showError('Please enter your target career path'); return false; }
+            if (!fullName) { showError('Please enter your full name'); return false; }
+            if (!email || !email.includes('@')) { showError('Please enter a valid email'); return false; }
+            if (!academicStrengths) { showError('Please describe your academic strengths'); return false; }
+            if (!careerInterests) { showError('Please describe your career interests'); return false; }
+
+            return {
+                university, major, minor: document.getElementById('minor').value.trim(),
+                careerPath, fullName, email, academicStrengths, careerInterests,
+                motivations: document.getElementById('motivations').value.trim(),
+                background: document.getElementById('background').value.trim(),
+                format: document.querySelector('input[name="format"]:checked').value
+            };
+        }
+
+        async function generateRoadmap() {
+            const formData = validateForm();
+            if (!formData) return;
+
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+
+            try {
+                const formDataObj = new FormData();
+                formDataObj.append('university', formData.university);
+                formDataObj.append('major', formData.major);
+                formDataObj.append('minor', formData.minor);
+                formDataObj.append('careerPath', formData.careerPath);
+                formDataObj.append('fullName', formData.fullName);
+                formDataObj.append('email', formData.email);
+                formDataObj.append('academicStrengths', formData.academicStrengths);
+                formDataObj.append('careerInterests', formData.careerInterests);
+                formDataObj.append('motivations', formData.motivations);
+                formDataObj.append('background', formData.background);
+                formDataObj.append('format', formData.format);
+
+                uploadedFiles.forEach(file => {
+                    formDataObj.append('files', file);
+                });
+
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    body: formDataObj,
+                    timeout: 120000
+                });
+
+                if (!response.ok) {
+                    let errorMsg = 'Failed to generate roadmap';
+                    try {
+                        const error = await response.json();
+                        errorMsg = error.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = `Server error: ${response.status} ${response.statusText}`;
+                    }
+                    throw new Error(errorMsg);
+                }
+
+                const data = await response.json();
+                displayResults(data, formData);
+                showSuccess('Your roadmap has been generated!');
+            } catch (error) {
+                console.error('Generation error:', error);
+                showError(`Error: ${error.message}`);
+                document.getElementById('loadingState').style.display = 'none';
+            } finally {
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('loadingState').style.display = 'none';
+            }
+        }
+
+        function displayResults(data, formData) {
+            document.getElementById('resultUniversity').textContent = formData.university;
+            document.getElementById('resultProgram').textContent = formData.major + (formData.minor ? ` + ${formData.minor}` : '');
+            document.getElementById('resultCareer').textContent = formData.careerPath;
+            document.getElementById('resultDate').textContent = new Date().toLocaleDateString();
+
+            const downloadButtons = document.getElementById('downloadButtons');
+            downloadButtons.innerHTML = '';
+
+            if (data.htmlUrl || formData.format === 'html' || formData.format === 'both') {
+                const btn = document.createElement('a');
+                btn.href = data.htmlUrl;
+                btn.className = 'download-btn';
+                btn.innerHTML = '📄 View HTML';
+                btn.target = '_blank';
+                downloadButtons.appendChild(btn);
+            }
+
+            if (data.pdfUrl || formData.format === 'pdf' || formData.format === 'both') {
+                const btn = document.createElement('a');
+                btn.href = data.pdfUrl;
+                btn.download = `roadmap-${Date.now()}.pdf`;
+                btn.className = 'download-btn';
+                btn.innerHTML = '📋 Download PDF';
+                downloadButtons.appendChild(btn);
+            }
+
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetAndRegenerate() {
+            document.getElementById('results').style.display = 'none';
+            generateRoadmap();
+        }
+
+        function resetForm() {
+            formFields.forEach(fieldId => {
+                const element = document.getElementById(fieldId);
+                if (element) element.value = '';
+            });
+            uploadedFiles = [];
+            uploadedFilesList.innerHTML = '';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+            localStorage.removeItem('collegeRoadmapFormData');
+        }
+
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+            setTimeout(() => {
+                errorMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successMsg = document.getElementById('successMsg');
+            successMsg.textContent = message;
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        // Event Listeners
+        document.getElementById('generateBtn').addEventListener('click', generateRoadmap);
+        document.getElementById('clearBtn').addEventListener('click', resetForm);
+        document.getElementById('regenerateBtn').addEventListener('click', resetAndRegenerate);
     </script>
 </body>
 </html>
