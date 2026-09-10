@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Roadmap Generator</title>
+    <title>College Roadmap Generator - Your Path to Success</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
@@ -14,43 +14,52 @@
 
         :root {
             --primary-gradient: linear-gradient(135deg, #0f2c66 0%, #1a5490 25%, #0088cc 50%, #00bbff 75%, #1e7fa0 100%);
+            --button-gradient: linear-gradient(135deg, #0077be 0%, #00d4ff 100%);
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             background: var(--primary-gradient);
             min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            color: #333;
         }
 
+        /* Welcome Overlay */
         .welcome-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(5px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            animation: fadeIn 0.5s ease-in-out;
+            z-index: 2000;
+            animation: welcomeFadeIn 0.5s ease-in-out;
         }
 
         .welcome-overlay.hidden {
-            display: none;
+            display: none !important;
         }
 
         .welcome-overlay.fade-out {
-            animation: fadeOut 0.5s ease-in-out forwards;
+            animation: welcomeFadeOut 0.5s ease-in-out forwards;
+            pointer-events: none;
         }
 
-        @keyframes fadeIn {
+        @keyframes welcomeFadeIn {
             from {
                 opacity: 0;
             }
@@ -59,34 +68,45 @@
             }
         }
 
-        @keyframes fadeOut {
+        @keyframes welcomeFadeOut {
             from {
                 opacity: 1;
             }
             to {
                 opacity: 0;
-                pointer-events: none;
             }
         }
 
         .welcome-modal {
             background: white;
-            border-radius: 12px;
-            padding: 3rem;
-            max-width: 500px;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            max-width: 520px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         .welcome-logo {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto 1.5rem;
-            animation: float 3s ease-in-out infinite;
+            animation: logoFloat 3s ease-in-out infinite;
         }
 
-        @keyframes float {
+        @keyframes logoFloat {
             0%, 100% {
                 transform: translateY(0px);
             }
@@ -96,152 +116,183 @@
         }
 
         .welcome-modal h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 0.75rem;
             color: #0f2c66;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .welcome-modal p {
-            font-size: 1.1rem;
-            color: #666;
+            font-size: 1.05rem;
+            color: #555;
             margin-bottom: 2rem;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .welcome-btn {
-            background: var(--primary-gradient);
+            background: var(--button-gradient);
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            border-radius: 6px;
+            padding: 0.95rem 2.5rem;
+            font-size: 1.05rem;
+            border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
         }
 
         .welcome-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(15, 44, 102, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 119, 190, 0.4);
         }
 
+        .welcome-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Main Container */
         .container {
             background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            max-width: 700px;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 750px;
             width: 100%;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
 
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .welcome-modal {
+                padding: 2rem 1.5rem;
+            }
+
+            .welcome-modal h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Header */
         header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             border-bottom: 3px solid #0f2c66;
-            padding-bottom: 1rem;
+            padding-bottom: 1.5rem;
         }
 
         header h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #0f2c66;
             margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         header p {
-            color: #666;
+            color: #777;
             font-size: 1.05rem;
+            font-weight: 500;
         }
 
+        /* Form Styling */
         .form-group {
             margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             font-weight: 600;
             color: #333;
+            font-size: 0.95rem;
+            letter-spacing: 0.2px;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.85rem 1rem;
             border: 2px solid #ddd;
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: inherit;
-            font-size: 1rem;
-            transition: border-color 0.2s;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: #fafafa;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #0088cc;
-            background: #f9f9f9;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
         }
 
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 90px;
+            font-family: inherit;
         }
 
+        /* Grid Layout */
         .row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         @media (max-width: 600px) {
             .row {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+        /* Messages */
+        .error, .success-message {
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+            font-weight: 500;
+            animation: slideDown 0.3s ease-out;
         }
 
-        button {
-            flex: 1;
-            padding: 1rem;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
+        .error {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
         }
 
-        .generate-btn {
-            background: var(--primary-gradient);
-            color: white;
+        .success-message {
+            background: #efe;
+            color: #060;
+            border-left: 4px solid #060;
         }
 
-        .generate-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(15, 44, 102, 0.3);
+        .error.show, .success-message.show {
+            display: block;
         }
 
-        .generate-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .export-btn {
-            background: #f0f0f0;
-            color: #333;
-            border: 2px solid #ddd;
-        }
-
-        .export-btn:hover:not(:disabled) {
-            background: #e0e0e0;
-        }
-
+        /* Loading State */
         .loading {
             display: none;
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem;
         }
 
         .loading.show {
@@ -249,11 +300,11 @@
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
+            border: 4px solid #f0f0f0;
             border-top: 4px solid #0088cc;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
         }
@@ -263,19 +314,74 @@
             100% { transform: rotate(360deg); }
         }
 
-        .error {
-            background: #fee;
-            color: #c00;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            display: none;
+        .loading p {
+            color: #666;
+            font-size: 1rem;
         }
 
-        .error.show {
-            display: block;
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
+        button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .generate-btn {
+            background: var(--button-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 119, 190, 0.4);
+        }
+
+        .generate-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .regenerate-btn {
+            background: #ffa500;
+            color: white;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+        }
+
+        .regenerate-btn:hover {
+            background: #ff8c00;
+            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.4);
+        }
+
+        .export-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .export-btn:hover:not(:disabled) {
+            background: #e5e5e5;
+            border-color: #bbb;
+        }
+
+        /* Roadmap Result */
         .roadmap-result {
             margin-top: 2rem;
             display: none;
@@ -283,36 +389,32 @@
 
         .roadmap-result.show {
             display: block;
+            animation: slideDown 0.4s ease-out;
         }
 
         .roadmap-iframe {
             width: 100%;
-            height: 600px;
+            height: 700px;
             border: 2px solid #ddd;
-            border-radius: 6px;
-        }
-
-        .success-message {
-            background: #efe;
-            color: #060;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        .regenerate-btn {
-            background: #ffa500;
-            color: white;
+            border-radius: 8px;
             margin-top: 1rem;
         }
 
-        .regenerate-btn:hover {
-            background: #ff8c00;
+        /* Utility Classes */
+        .required-note {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.3rem;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
         }
     </style>
 </head>
@@ -320,20 +422,33 @@
     <!-- Welcome Overlay -->
     <div id="welcomeOverlay" class="welcome-overlay">
         <div class="welcome-modal">
-            <svg class="welcome-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="30" r="20" fill="#0f2c66"/>
-                <path d="M 30 55 Q 50 70 70 55" stroke="#0f2c66" stroke-width="3" fill="none" stroke-linecap="round"/>
-                <path d="M 35 50 L 40 60" stroke="#0f2c66" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <path d="M 65 50 L 60 60" stroke="#0f2c66" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Logo SVG -->
+            <svg class="welcome-logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0f2c66;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#0088cc;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- Graduation Cap -->
+                <circle cx="60" cy="35" r="18" fill="url(#logoGradient)"/>
+                <path d="M 30 48 L 60 62 L 90 48" stroke="url(#logoGradient)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M 60 62 L 60 75" stroke="url(#logoGradient)" stroke-width="3" stroke-linecap="round"/>
+                <!-- Paths/Steps -->
+                <circle cx="40" cy="90" r="6" fill="url(#logoGradient)"/>
+                <circle cx="60" cy="100" r="6" fill="url(#logoGradient)"/>
+                <circle cx="80" cy="90" r="6" fill="url(#logoGradient)"/>
+                <path d="M 40 90 L 60 100 L 80 90" stroke="url(#logoGradient)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
+
             <h1>Create Your Roadmap</h1>
-            <p>Get a personalized 4-year college and career roadmap powered by AI. From course selection to career strategy, we've got you covered.</p>
+            <p>Get a personalized 4-year college and career roadmap powered by AI. Discover your perfect path from course selection to career strategy.</p>
             <button class="welcome-btn" id="startBtn">Create my roadmap!</button>
         </div>
     </div>
 
-    <!-- Main Form -->
-    <div class="container">
+    <!-- Main Container -->
+    <div class="container" id="mainContainer">
         <header>
             <h1>🎓 College Roadmap Generator</h1>
             <p>Your personalized path to success</p>
@@ -343,61 +458,67 @@
             <div class="error" id="errorMessage"></div>
             <div class="success-message" id="successMessage"></div>
 
+            <!-- Personal Information -->
             <div class="row">
                 <div class="form-group">
-                    <label for="fullName">Full Name *</label>
-                    <input type="text" id="fullName" name="fullName" required>
+                    <label for="fullName">Full Name <span style="color: #c33;">*</span></label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email Address <span style="color: #c33;">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
                 </div>
             </div>
 
+            <!-- University & Major -->
             <div class="row">
                 <div class="form-group">
-                    <label for="university">University *</label>
+                    <label for="university">University <span style="color: #c33;">*</span></label>
                     <input type="text" id="university" name="university" placeholder="e.g., Stanford University" required>
                 </div>
                 <div class="form-group">
-                    <label for="major">Major *</label>
+                    <label for="major">Major <span style="color: #c33;">*</span></label>
                     <input type="text" id="major" name="major" placeholder="e.g., Computer Science" required>
                 </div>
             </div>
 
+            <!-- Minor & Career Path -->
             <div class="row">
                 <div class="form-group">
                     <label for="minor">Minor (Optional)</label>
-                    <input type="text" id="minor" name="minor" placeholder="e.g., Business">
+                    <input type="text" id="minor" name="minor" placeholder="e.g., Business Administration">
                 </div>
                 <div class="form-group">
-                    <label for="careerPath">Target Career Path *</label>
+                    <label for="careerPath">Target Career Path <span style="color: #c33;">*</span></label>
                     <input type="text" id="careerPath" name="careerPath" placeholder="e.g., Software Engineer" required>
                 </div>
             </div>
 
+            <!-- Academic & Career Details -->
             <div class="form-group">
-                <label for="academicStrengths">Academic Strengths *</label>
-                <textarea id="academicStrengths" name="academicStrengths" placeholder="What are your strongest academic areas?" required></textarea>
+                <label for="academicStrengths">Academic Strengths <span style="color: #c33;">*</span></label>
+                <textarea id="academicStrengths" name="academicStrengths" placeholder="What are your strongest academic areas? (e.g., Mathematics, Writing, Problem-solving)" required></textarea>
             </div>
 
             <div class="form-group">
-                <label for="careerInterests">Career Interests & Goals *</label>
-                <textarea id="careerInterests" name="careerInterests" placeholder="What interests you most about your career path?" required></textarea>
+                <label for="careerInterests">Career Interests & Goals <span style="color: #c33;">*</span></label>
+                <textarea id="careerInterests" name="careerInterests" placeholder="What excites you about your career path? What are your specific goals?" required></textarea>
             </div>
 
+            <!-- Optional Details -->
             <div class="form-group">
                 <label for="motivations">Personal Motivations (Optional)</label>
-                <textarea id="motivations" name="motivations" placeholder="What drives and motivates you?"></textarea>
+                <textarea id="motivations" name="motivations" placeholder="What drives and motivates you? Any personal values or aspirations?"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="background">Unique Background (Optional)</label>
-                <textarea id="background" name="background" placeholder="Any unique experiences or background you'd like to share?"></textarea>
+                <textarea id="background" name="background" placeholder="Any unique experiences, talents, or background you'd like us to know about?"></textarea>
             </div>
 
+            <!-- Export Format -->
             <div class="form-group">
-                <label for="format">Export Format *</label>
+                <label for="format">Export Format <span style="color: #c33;">*</span></label>
                 <select id="format" name="format" required>
                     <option value="html">HTML (View in Browser)</option>
                     <option value="pdf">PDF (Download)</option>
@@ -405,60 +526,76 @@
                 </select>
             </div>
 
+            <!-- Loading State -->
             <div class="loading" id="loading">
                 <div class="spinner"></div>
                 <p>Generating your personalized roadmap...</p>
+                <p style="font-size: 0.85rem; color: #999; margin-top: 0.5rem;">This may take a minute...</p>
             </div>
 
+            <!-- Submit Button -->
             <div class="button-group">
                 <button type="submit" class="generate-btn" id="generateBtn">Generate Roadmap</button>
             </div>
         </form>
 
+        <!-- Roadmap Result -->
         <div class="roadmap-result" id="roadmapResult">
-            <div class="success-message show">
-                ✅ Your roadmap has been generated!
+            <div class="success-message show" style="margin-bottom: 1.5rem;">
+                ✅ Your roadmap has been generated successfully!
             </div>
             <iframe id="roadmapIframe" class="roadmap-iframe"></iframe>
-            <button class="generate-btn regenerate-btn" id="regenerateBtn">Regenerate Roadmap</button>
+            <div class="button-group">
+                <button type="button" class="generate-btn regenerate-btn" id="regenerateBtn">Regenerate Roadmap</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Welcome screen logic
+        // Welcome Screen Management
         const welcomeOverlay = document.getElementById('welcomeOverlay');
         const startBtn = document.getElementById('startBtn');
+        const mainContainer = document.getElementById('mainContainer');
 
         function initWelcomeScreen() {
-            if (!sessionStorage.getItem('welcomeShown')) {
-                welcomeOverlay.style.display = 'flex';
-                sessionStorage.setItem('welcomeShown', 'true');
-            } else {
+            const welcomeShown = sessionStorage.getItem('welcomeShown');
+
+            if (welcomeShown === 'true') {
                 welcomeOverlay.classList.add('hidden');
+            } else {
+                welcomeOverlay.style.display = 'flex';
             }
         }
 
         startBtn.addEventListener('click', () => {
+            sessionStorage.setItem('welcomeShown', 'true');
             welcomeOverlay.classList.add('fade-out');
             setTimeout(() => {
-                welcomeOverlay.style.display = 'none';
+                welcomeOverlay.classList.add('hidden');
             }, 500);
         });
 
-        // Form persistence
+        // Form Persistence
         const formInputs = document.querySelectorAll('#roadmapForm input, #roadmapForm textarea, #roadmapForm select');
+        const form = document.getElementById('roadmapForm');
 
+        // Save form data on input
         formInputs.forEach(input => {
             input.addEventListener('input', () => {
-                localStorage.setItem(input.id, input.value);
+                localStorage.setItem(`roadmap_${input.id}`, input.value);
+            });
+
+            input.addEventListener('change', () => {
+                localStorage.setItem(`roadmap_${input.id}`, input.value);
             });
         });
 
+        // Restore form data on page load
         function restoreFormData() {
             formInputs.forEach(input => {
-                const saved = localStorage.getItem(input.id);
-                if (saved) {
-                    input.value = saved;
+                const savedValue = localStorage.getItem(`roadmap_${input.id}`);
+                if (savedValue) {
+                    input.value = savedValue;
                 }
             });
         }
@@ -469,8 +606,7 @@
             restoreFormData();
         });
 
-        // Form submission
-        const form = document.getElementById('roadmapForm');
+        // Form Submission
         const generateBtn = document.getElementById('generateBtn');
         const loading = document.getElementById('loading');
         const errorMessage = document.getElementById('errorMessage');
@@ -480,8 +616,11 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // Clear previous messages
             errorMessage.classList.remove('show');
             errorMessage.textContent = '';
+            roadmapResult.classList.remove('show');
 
             const formData = new FormData(form);
 
@@ -491,13 +630,12 @@
             try {
                 const response = await fetch('/api/generate', {
                     method: 'POST',
-                    body: formData,
-                    timeout: 120000
+                    body: formData
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                    throw new Error(errorData.error || `Server error: ${response.status}`);
                 }
 
                 const data = await response.json();
@@ -506,13 +644,18 @@
                     roadmapIframe.src = data.htmlUrl;
                     roadmapResult.classList.add('show');
                     regenerateBtn.dataset.roadmapId = data.roadmapId;
+
+                    // Scroll to result
+                    setTimeout(() => {
+                        roadmapResult.scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
                 } else {
-                    throw new Error('No roadmap URL returned');
+                    throw new Error('No roadmap generated. Please try again.');
                 }
 
             } catch (error) {
-                console.error('Error:', error);
-                errorMessage.textContent = `Error: ${error.message}`;
+                console.error('Generation Error:', error);
+                errorMessage.textContent = `⚠️ Error: ${error.message}`;
                 errorMessage.classList.add('show');
             } finally {
                 loading.classList.remove('show');
@@ -520,10 +663,16 @@
             }
         });
 
+        // Regenerate Button
         regenerateBtn.addEventListener('click', () => {
             roadmapResult.classList.remove('show');
             form.reset();
-            localStorage.clear();
+
+            // Clear localStorage
+            formInputs.forEach(input => {
+                localStorage.removeItem(`roadmap_${input.id}`);
+            });
+
             generateBtn.click();
         });
     </script>
