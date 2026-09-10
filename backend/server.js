@@ -165,7 +165,9 @@ Please generate a comprehensive, structured roadmap that includes:
     - Mentorship programs
     - Career services to utilize
 
-Format the response as clear, well-organized HTML that can be rendered directly in a browser. Use semantic HTML and inline CSS for styling with a clean, professional grayscale theme (black text on white background with subtle gray accents). Make it print-friendly and visually organized with clear sections, headings, and bullet points.`;
+Format the response as clear, well-organized HTML that can be rendered directly in a browser. Use semantic HTML and inline CSS for styling with a clean, professional grayscale theme (black text on white background with subtle gray accents). Make it print-friendly and visually organized with clear sections, headings, and bullet points.
+
+IMPORTANT: Provide the complete HTML roadmap content directly as your response. Do not include any thinking or planning - just output the HTML directly.`;
 
     try {
         console.log('📤 Sending request to Claude API (model: claude-opus-5)...');
@@ -182,17 +184,32 @@ Format the response as clear, well-organized HTML that can be rendered directly 
         });
 
         console.log('✅ Claude API Response received:', {
-            type: typeof message,
-            keys: Object.keys(message),
-            stop_reason: message.stop_reason,
-            content_type: Array.isArray(message.content) ? 'array' : typeof message.content,
-            content_length: message.content?.length,
-            first_content_type: message.content?.[0]?.type,
-            first_content_text_type: typeof message.content?.[0]?.text,
-            first_content_text_length: message.content?.[0]?.text?.length || 0
+            content_blocks: message.content?.map(c => ({ type: c.type, length: c.text?.length || c.thinking?.length || 0 }))
         });
 
-        const textContent = message.content?.[0]?.text;
+        // Find the text block (skip thinking blocks)
+        let textContent = null;
+        for (const block of message.content || []) {
+            if (block.type === 'text' && block.text) {
+                textContent = block.text;
+                break;
+            }
+        }
+
+        if (!textContent) {
+            // Check if it's only thinking without text
+            const hasThinking = message.content?.some(c => c.type === 'thinking');
+            if (hasThinking) {
+                console.warn('⚠️ Claude returned thinking block but no text. Using thinking as fallback.');
+                // Use thinking content if available
+                for (const block of message.content || []) {
+                    if (block.type === 'thinking' && block.thinking) {
+                        textContent = `<h2>Thinking Process</h2><pre>${block.thinking.substring(0, 8000)}</pre>`;
+                        break;
+                    }
+                }
+            }
+        }
 
         if (typeof textContent !== 'string' || textContent.length === 0) {
             console.error('❌ ERROR: Invalid content from Claude');
