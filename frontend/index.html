@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0022)http://localhost:2026/ -->
+<html lang="en" style="opacity: initial;" data-gg-beacon-mounted="true" data-gg-announcements-mounted="true"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Roadmap Generator - Any University, Any Career</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -47,7 +46,6 @@
 
         .welcome-overlay.hidden {
             animation: fadeOut 0.5s ease-in-out forwards;
-            pointer-events: none;
         }
 
         @keyframes fadeOut {
@@ -56,6 +54,7 @@
             }
             to {
                 opacity: 0;
+                pointer-events: none;
             }
         }
 
@@ -172,6 +171,13 @@
             opacity: 0.9;
         }
 
+        header p1 {
+            color: rgb(213, 239, 249);
+            font-size: 1.25rem;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
         .content {
             padding: 3rem;
         }
@@ -201,7 +207,7 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background: var(--accent);
+            background: #667eea;
             color: white;
             border-radius: 50%;
             font-weight: bold;
@@ -211,7 +217,7 @@
 
         .info-box {
             background: #edf2f7;
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid #667eea;
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 1.5rem;
@@ -240,7 +246,7 @@
         }
 
         label span.required {
-            color: var(--error);
+            color: #f56565;
         }
 
         input[type="text"],
@@ -260,7 +266,7 @@
         input[type="email"]:focus,
         textarea:focus {
             outline: none;
-            border-color: var(--accent);
+            border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
@@ -271,7 +277,7 @@
         }
 
         .upload-area {
-            border: 2px dashed var(--accent);
+            border: 2px dashed #667eea;
             border-radius: 8px;
             padding: 2rem;
             text-align: center;
@@ -314,7 +320,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid #667eea;
             font-size: 0.9rem;
         }
 
@@ -326,7 +332,7 @@
         }
 
         .remove-btn {
-            background: var(--error);
+            background: #f56565;
             color: white;
             border: none;
             width: 28px;
@@ -375,7 +381,7 @@
         }
 
         .format-option input[type="radio"]:checked + .format-label {
-            border-color: var(--accent);
+            border-color: #667eea;
             background: #edf2f7;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
@@ -399,7 +405,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent) 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             min-width: 200px;
         }
@@ -433,7 +439,7 @@
 
         .spinner {
             border: 4px solid #e2e8f0;
-            border-top: 4px solid var(--accent);
+            border-top: 4px solid #667eea;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -448,7 +454,7 @@
 
         .error-message {
             background: #ffe5e5;
-            border-left: 4px solid var(--error);
+            border-left: 4px solid #f56565;
             padding: 1rem;
             border-radius: 6px;
             color: #c92a2a;
@@ -459,7 +465,7 @@
 
         .success-message {
             background: #e5ffe5;
-            border-left: 4px solid var(--success);
+            border-left: 4px solid #48bb78;
             padding: 1rem;
             border-radius: 6px;
             color: #22543d;
@@ -501,7 +507,7 @@
             background: white;
             padding: 0.75rem;
             border-radius: 6px;
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid #667eea;
         }
 
         .download-buttons {
@@ -512,7 +518,7 @@
 
         .download-btn {
             display: inline-block;
-            background: var(--accent);
+            background: #667eea;
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 6px;
@@ -530,7 +536,7 @@
         }
 
         .regenerate-btn {
-            background: var(--success);
+            background: #48bb78;
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 6px;
@@ -543,6 +549,42 @@
         .regenerate-btn:hover {
             background: #38a169;
             transform: translateY(-2px);
+        }
+
+        .api-key-section {
+            background: #fff5e6;
+            border: 2px solid #fbd38d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .api-key-section h3 {
+            color: #c05621;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .api-key-input-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .api-key-input-group input {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .api-key-saved {
+            background: #e5ffe5;
+            border: 2px solid #48bb78;
+            padding: 1rem;
+            border-radius: 8px;
+            color: #22543d;
+            margin-top: 1rem;
+            display: none;
         }
 
         @media (max-width: 768px) {
@@ -565,18 +607,499 @@
             button {
                 width: 100%;
             }
+
+            .api-key-input-group {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-</head>
+    <script src="./College Roadmap Generator - Any University, Any Career_files/html2pdf.bundle.min.js"></script>
+<style>.CHyAgqPbx_yuoH5uy3fA {
+  all: inherit;
+  position: fixed;
+  z-index: 2147483638;
+  transform: translate3d(0, 0, 0);
+  height: 150px;
+  min-width: 42px;
+  pointer-events: none;
+}
+
+.c7PfBJGDinK5Bw9mX7X1 {
+  all: initial !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 0;
+}
+
+.wX6Ok7uuj0zTzTimF5wb {
+  all: initial !important;
+  font-family: helvetica, arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 18px !important;
+}
+
+.oojVDlbQ8aUE1WHqV0hZ {
+  all: inherit;
+  background: white;
+  box-sizing: border-box;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #717171;
+  padding: 24px;
+  color: #6f6f6f;
+  font-size: 12px;
+  /* TEAM1-9978: never wider than the viewport (WCAG 1.4.10 reflow). */
+  width: 380px;
+  max-width: calc(100vw - 24px);
+  height: auto;
+  max-height: calc(100vh - 32px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  position: absolute;
+  pointer-events: all;
+
+  .k4AUZjsXaZZszZI4r2hX {
+    all: revert;
+    font-size: 12px;
+    font-weight: 400;
+    color: #6f6f6f;
+    margin-top: 0px;
+    margin-bottom: 16px;
+
+    strong {
+      color: #000;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.5;
+      font-family: helvetica, arial, sans-serif !important;
+    }
+  }
+
+  p {
+    font-size: 12px;
+    margin: 0 0 16px;
+    line-height: 18px;
+    padding: 0;
+    overflow-wrap: break-word;
+  }
+}
+
+.oojVDlbQ8aUE1WHqV0hZ.QTXPy_h3jSEXtt1vMRgV {
+  display: block;
+}
+
+.oojVDlbQ8aUE1WHqV0hZ.eQUoBAGM4TK9cyX55I5S {
+  display: none;
+}
+
+@media (max-width: 420px) {
+  .CHyAgqPbx_yuoH5uy3fA {
+    transform: none;
+  }
+
+  .oojVDlbQ8aUE1WHqV0hZ.QTXPy_h3jSEXtt1vMRgV {
+    position: fixed !important;
+    top: 12px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    max-height: calc(100vh - 24px) !important;
+  }
+
+  .dV9ESxaqZaFn_Y3FEReD,
+  .nnquEGgT1me8UakMNiUQ {
+    left: 12px !important;
+    right: 12px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+.gSuwB40dhy9p0S8mO4_A {
+  all: unset;
+  display: block;
+  position: absolute;
+  pointer-events: all;
+  height: 42px;
+  width: 42px;
+  border-radius: 50%;
+  background-color: #078aab;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  top: 16px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 5px auto #0097cf;
+  }
+}
+
+.C0oEISkoiBHvRg2Tr4Dy {
+  background-color: #d9d9d9 !important;
+  border-radius: 2px !important;
+  float: right !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  border: 1px solid #d9d9d9 !important;
+  color: #000 !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  padding: 4px 16px !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.5px !important;
+  font-family: helvetica, arial, sans-serif !important;
+  pointer-events: all !important;
+}
+
+.C0oEISkoiBHvRg2Tr4Dy:focus {
+  outline: 5px auto #0097cf !important;
+}
+
+.QYJ27ZD_xSov6xX3D9jB {
+  all: unset;
+  display: inline-block;
+  height: 42px;
+  width: 42px;
+  color: white;
+}
+
+.dV9ESxaqZaFn_Y3FEReD {
+  margin-right: 21px;
+  padding-right: 36px;
+  right: 0;
+}
+
+.nnquEGgT1me8UakMNiUQ {
+  margin-left: 21px;
+  padding-left: 36px;
+  left: 0;
+}
+</style><style>.WMxS1J6ioJ9GGcB7jpSt {
+  font-family: "Open Sans", sans-serif;
+  color: #000;
+  background-color: #fff;
+  margin: 0;
+  position: fixed;
+  bottom: 5%;
+  right: 30px;
+  width: 40%;
+  z-index: var(--gg-max-safe-z-index);
+}
+
+.KEqVTIMgp6xa3EhIF8su {
+  background: #fff;
+  padding: 27px 45px;
+  font-size: 16px;
+  position: relative;
+  border-left: 12.7px solid #0097cf;
+  line-height: 1.5;
+  word-spacing: 0.16em;
+  font-weight: 400;
+}
+
+._1i1qEpvkNkNHb3_Wo92 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  z-index: 1;
+  background: transparent;
+  border: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.DdblROjO1FZxLD91RzUK {
+  width: 24px;
+  height: 24px;
+  color: #757575;
+  cursor: pointer;
+}
+</style><style>.To7Rzi0O1nlffaEHzn94 {
+  all: unset;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.t0W1qu3qBahmkXdEPA3S {
+  all: unset;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.95);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  opacity: 1;
+}
+
+.qit3QTAcJj8MDbtOxkD1 {
+  all: unset;
+  position: absolute;
+  background-color: white;
+  z-index: 101;
+  padding: 40px 40px 20px;
+  width: 460px;
+  box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.28);
+  top: 50%;
+  left: 50%;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-duration: 0.35s;
+  animation-name: h9pRScRKcELlVvUJevdi;
+}
+
+@keyframes h9pRScRKcELlVvUJevdi {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -70%);
+  }
+}
+
+.bXbe4wapBPkm0eQXwvkI {
+  all: unset;
+  display: block;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #575659;
+  margin: 0;
+  padding-bottom: 14px;
+  text-align: left;
+  line-height: normal;
+  word-break: break-all;
+}
+
+.SCPAMof7dbuKMcfsDeU4 {
+  all: unset;
+  max-height: 65vh;
+  overflow-y: auto;
+  display: block;
+  font-size: 14px;
+  font-family: helvetica, arial, sans-serif;
+  color: #575659;
+  margin: 0;
+  margin-bottom: 40px;
+  text-align: left;
+  line-height: normal;
+}
+
+.K64G9NQMNxCmZCnhhfbq {
+  all: unset;
+  display: block;
+  text-align: right;
+  color: white;
+}
+
+.hFr78obMHMXgwzeU7qJy {
+  all: initial;
+  background-color: #0077a3;
+  color: #fff;
+  align-content: center;
+  align-items: center;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  flex-direction: row;
+  font-size: 14px;
+  line-height: 40px;
+  height: 40px;
+  justify-content: center;
+  margin-bottom: 0;
+  overflow: hidden;
+  padding: 0 30px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-family: helvetica, arial, sans-serif;
+  font-weight: 400;
+
+  &:active {
+    background-color: lighten(#0077a3, 10%);
+  }
+
+  &:focus {
+    outline: 1px solid #0077a3;
+    outline-offset: 2px;
+  }
+}
+
+@media print {
+  .VrTDXRtVFtBycLTZbRR8 {
+    &,
+    & * {
+      display: none !important;
+    }
+  }
+}
+</style><style>
+@keyframes ggt-annotate-pulse {
+  from {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(0.91);
+  }
+  17% {
+    transform: scale(0.98);
+  }
+  33% {
+    transform: scale(0.87);
+  }
+  45% {
+    transform: scale(1);
+  }
+};
+</style><style>.f4wp3soi2Iz7cL8_mBs6 {
+  filter: hue-rotate(310deg) saturate(1.5) grayscale(0%) !important;
+  -webkit-filter: hue-rotate(310deg) saturate(1.5) grayscale(0%) !important;
+  animation: unset !important;
+  -webkit-animation: unset !important;
+  animation-iteration-count: unset !important;
+  -webkit-animation-iteration-count: unset !important;
+  opacity: 1 !important;
+}
+
+.QL9G5PpDdywx4j2ui923 {
+  filter: hue-rotate(55deg) saturate(1.5) grayscale(0%) !important;
+  -webkit-filter: hue-rotate(55deg) saturate(1.5) grayscale(0%) !important;
+  animation: unset !important;
+  -webkit-animation: unset !important;
+  animation-iteration-count: unset !important;
+  -webkit-animation-iteration-count: unset !important;
+  opacity: 1 !important;
+}
+
+.Oo2MI2VIHvBW0d3CNQFf {
+  all: unset !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: var(--gg-max-safe-z-index) !important;
+  background-color: rgba(0, 0, 0, 0.55) !important;
+  padding: 10% 22% !important;
+}
+
+.bsMCAr_1yx38G28xSnp0 {
+  all: unset !important;
+  display: flex !important;
+  padding: 40px 40px 80px 40px !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 16px !important;
+  border-radius: 24px !important;
+  background: white !important;
+  box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.01) !important;
+  font-family: "system-ui" !important;
+}
+
+.mK6GsL_ksD76QBv2Q9Rm {
+  all: unset !important;
+  align-self: end !important;
+  cursor: pointer !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.ZRdpyHz_lPKJTduRoi2r {
+  all: unset !important;
+  color: #737373 !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+}
+
+.IouG7eaxgvWr8ZI5V33y {
+  all: unset !important;
+  color: #262626 !important;
+  font-size: 28px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: 36px !important;
+  max-width: 50% !important;
+}
+
+.YhdyXKVdzY35BFihC2qA {
+  all: unset !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  line-clamp: 1 !important;
+  -webkit-line-clamp: 1 !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 1 !important;
+  color: #262626 !important;
+  text-overflow: ellipsis !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 24px !important;
+}
+
+.bHZUZBmaR2PRIcnonKfj {
+  all: unset !important;
+  display: flex !important;
+  color: #262626 !important;
+  width: 400px !important;
+  padding: 24px 0px !important;
+  flex-direction: column !important;
+  font-size: 16px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  border-radius: 8px !important;
+  background-color: #f7f8fa !important;
+}
+
+.xzM886eGcfGojrQZEDVg {
+  all: unset !important;
+  color: #595959 !important;
+  font-size: 14px !important;
+}
+
+.c02YVWC3ItBlsPlnjpIg {
+  all: unset !important;
+  color: #262626 !important;
+  font-weight: bold !important;
+}
+</style></head>
 <body>
     <!-- Welcome Overlay -->
-    <div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-overlay hidden" id="welcomeOverlay">
         <div class="welcome-modal">
             <svg class="welcome-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Graduation Cap -->
                 <path d="M 20 50 L 50 30 L 80 50 L 75 55 Q 50 45 25 55 Z" fill="#0077be" stroke="#00d4ff" stroke-width="2"></path>
+                <!-- Cap Top -->
                 <circle cx="50" cy="25" r="8" fill="#00d4ff"></circle>
+                <!-- Tassel -->
                 <line x1="50" y1="33" x2="50" y2="70" stroke="#0077be" stroke-width="2"></line>
+                <!-- Path Lines (representing journey) -->
                 <polyline points="35,70 35,85 50,75 65,85 65,70" fill="none" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                <!-- Upward Arrows -->
                 <path d="M 40 75 L 40 60 M 35 65 L 40 60 L 45 65" fill="none" stroke="#667eea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M 60 75 L 60 60 M 55 65 L 60 60 L 65 65" fill="none" stroke="#667eea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
@@ -589,10 +1112,11 @@
 
     <div class="container">
         <header>
-            <h1>College Roadmap Generator</h1>
+            <h1> College Roadmap Generator </h1>
             <p>Any University • Any Major • Any Career Path</p>
-            <p style="margin-top: 0.5rem; font-style: italic; opacity: 0.8;">Personalized, AI-powered academic planning for your future</p>
-        </header>
+            <br>
+            <p1>Personalized, AI-powered academic planning for your future<p></p>
+        </p1></header>
 
         <div class="content">
             <div class="error-message" id="errorMsg"></div>
@@ -602,18 +1126,18 @@
             <div class="section">
                 <h2>
                     <span class="step-number">1</span>
-                    University & Program
+                    University &amp; Program
                 </h2>
                 <p style="color: #4a5568; margin-bottom: 1rem;">Tell us about your desired academic path</p>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="university">University Name <span class="required">*</span></label>
-                        <input type="text" id="university" placeholder="e.g., Stanford University, MIT, UC Berkeley" required>
+                        <input type="text" id="university" placeholder="e.g., Stanford University, MIT, UC Berkeley" required="">
                     </div>
                     <div class="form-group">
                         <label for="major">Desired Major <span class="required">*</span></label>
-                        <input type="text" id="major" placeholder="e.g., Computer Science, Finance, Biology" required>
+                        <input type="text" id="major" placeholder="e.g., Computer Science, Finance, Biology" required="">
                     </div>
                 </div>
 
@@ -624,7 +1148,7 @@
                     </div>
                     <div class="form-group">
                         <label for="careerPath">Target Career Path <span class="required">*</span></label>
-                        <input type="text" id="careerPath" placeholder="e.g., Machine Learning Engineer, Investment Banker" required>
+                        <input type="text" id="careerPath" placeholder="e.g., Machine Learning Engineer, Investment Banker, Product Manager" required="">
                     </div>
                 </div>
             </div>
@@ -633,9 +1157,9 @@
             <div class="section">
                 <h2>
                     <span class="step-number">2</span>
-                    Upload Transcript (Optional)
+                    Upload Transcript
                 </h2>
-                <p style="color: #4a5568; margin-bottom: 1rem;">Upload your high school or college transcript for better personalization</p>
+                <p style="color: #4a5568; margin-bottom: 1rem;">Upload your high school or college transcript (helps with personalization)</p>
 
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon">📄</div>
@@ -658,22 +1182,22 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="academicStrengths">Academic Strengths <span class="required">*</span></label>
-                        <textarea id="academicStrengths" placeholder="e.g., Strong in mathematics, excel at programming, enjoy hands-on projects..." required></textarea>
+                        <textarea id="academicStrengths" placeholder="e.g., Strong in mathematics, excel at programming, enjoy hands-on projects..." required=""></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="careerInterests">Career Interests & Goals <span class="required">*</span></label>
-                        <textarea id="careerInterests" placeholder="e.g., Want to lead AI products, interested in fintech innovation..." required></textarea>
+                        <label for="careerInterests">Career Interests &amp; Goals <span class="required">*</span></label>
+                        <textarea id="careerInterests" placeholder="e.g., Want to lead AI products, interested in fintech innovation, passionate about social impact..." required=""></textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="motivations">Personal Motivations</label>
-                        <textarea id="motivations" placeholder="e.g., Driven by solving complex problems, want to work in tech..."></textarea>
+                        <textarea id="motivations" placeholder="e.g., Driven by solving complex problems, want to work in Silicon Valley, family business background..."></textarea>
                     </div>
                     <div class="form-group">
                         <label for="background">Unique Background (Optional)</label>
-                        <textarea id="background" placeholder="e.g., International student, first-generation, worked in tech..."></textarea>
+                        <textarea id="background" placeholder="e.g., International student, first-generation, worked in tech, leadership experience..."></textarea>
                     </div>
                 </div>
             </div>
@@ -688,11 +1212,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fullName">Full Name <span class="required">*</span></label>
-                        <input type="text" id="fullName" placeholder="Your full name" required>
+                        <input type="text" id="fullName" placeholder="Your full name" required="">
                     </div>
                     <div class="form-group">
                         <label for="email">Email <span class="required">*</span></label>
-                        <input type="email" id="email" placeholder="your.email@example.com" required>
+                        <input type="email" id="email" placeholder="your.email@example.com" required="">
                     </div>
                 </div>
             </div>
@@ -706,15 +1230,15 @@
 
                 <div class="output-format-selector">
                     <div class="format-option">
-                        <input type="radio" id="format-html" name="format" value="html" checked>
-                        <label for="format-html" class="format-label">
-                            🌐 HTML
+                        <input type="radio" id="format-pdf" name="format" value="pdf" checked="">
+                        <label for="format-pdf" class="format-label">
+                            📄 PDF
                         </label>
                     </div>
                     <div class="format-option">
-                        <input type="radio" id="format-pdf" name="format" value="pdf">
-                        <label for="format-pdf" class="format-label">
-                            📄 PDF
+                        <input type="radio" id="format-html" name="format" value="html">
+                        <label for="format-html" class="format-label">
+                            🌐 HTML
                         </label>
                     </div>
                     <div class="format-option">
@@ -726,14 +1250,14 @@
                 </div>
 
                 <div class="info-box">
-                    💡 <strong>Tip:</strong> HTML is great for quick viewing. PDF is best for printing and sharing.
+                    💡 <strong>Tip:</strong> PDF is best for printing and sharing. HTML is great for quick viewing and editing.
                 </div>
             </div>
 
             <!-- Generate Button -->
             <div class="button-group">
-                <button class="btn-secondary" id="clearBtn" type="button">Clear Form</button>
-                <button class="btn-primary" id="generateBtn" type="button">Generate My Roadmap</button>
+                <button class="btn-secondary" onclick="resetForm()">Clear Form</button>
+                <button class="btn-primary" id="generateBtn" onclick="generateRoadmap()">Generate My Roadmap</button>
             </div>
 
             <!-- Loading State -->
@@ -765,7 +1289,7 @@
                 </div>
 
                 <div style="text-align: center; margin-top: 2rem;">
-                    <button class="regenerate-btn" id="regenerateBtn" type="button">
+                    <button class="regenerate-btn" onclick="resetAndRegenerate()">
                         🔄 Generate Different Version
                     </button>
                 </div>
@@ -776,23 +1300,28 @@
     <script>
         // Welcome Screen Logic
         function initWelcomeScreen() {
+            // Check if welcome was already shown this session
             if (sessionStorage.getItem('welcomeShown') === 'true') {
-                document.getElementById('welcomeOverlay').style.display = 'none';
+                // Hide the overlay if already shown in this session
+                document.getElementById('welcomeOverlay').classList.add('hidden');
             } else {
-                document.getElementById('welcomeOverlay').style.display = 'flex';
+                // Show the overlay on first load
+                document.getElementById('welcomeOverlay').classList.remove('hidden');
+
+                // Add click handler to the button
                 document.getElementById('startBtn').addEventListener('click', () => {
+                    // Mark as shown in this session
                     sessionStorage.setItem('welcomeShown', 'true');
+                    // Hide the overlay with fade out
                     document.getElementById('welcomeOverlay').classList.add('hidden');
-                    setTimeout(() => {
-                        document.getElementById('welcomeOverlay').style.display = 'none';
-                    }, 500);
                 });
             }
         }
 
+        // Initialize welcome screen when page loads
         document.addEventListener('DOMContentLoaded', initWelcomeScreen);
 
-        // Form Persistence
+        // Form Persistence: Save and restore form data
         const formFields = [
             'university', 'major', 'minor', 'careerPath',
             'academicStrengths', 'careerInterests', 'motivations', 'background',
@@ -827,10 +1356,12 @@
             }
         }
 
+        // Restore form data on page load
         window.addEventListener('load', () => {
             restoreFormData();
         });
 
+        // Save form data whenever user types
         document.addEventListener('input', (e) => {
             if (formFields.includes(e.target.id)) {
                 saveFormData();
@@ -838,6 +1369,20 @@
         });
 
         let uploadedFiles = [];
+        let apiKeySet = false;
+        let lastRoadmapData = null;
+
+        // Check if API key is already set
+        window.addEventListener('load', () => {
+            const savedKey = localStorage.getItem('anthropicApiKey');
+            if (savedKey) {
+                apiKeySet = true;
+                document.getElementById('apiKeySection').style.display = 'none';
+                document.getElementById('apiKeySaved').style.display = 'block';
+            }
+        });
+
+        // API Key Management (now handled server-side)
 
         // File Upload
         const uploadArea = document.getElementById('uploadArea');
@@ -877,7 +1422,7 @@
                 div.className = 'file-item';
                 div.innerHTML = `
                     <span class="file-name">📎 ${file.name}</span>
-                    <button class="remove-btn" type="button" onclick="removeFile(${index})">×</button>
+                    <button class="remove-btn" onclick="removeFile(${index})">×</button>
                 `;
                 uploadedFilesList.appendChild(div);
             });
@@ -960,6 +1505,7 @@
                 }
 
                 const data = await response.json();
+                lastRoadmapData = { ...formData, ...data };
                 displayResults(data, formData);
                 showSuccess('Your roadmap has been generated!');
             } catch (error) {
@@ -981,23 +1527,31 @@
             const downloadButtons = document.getElementById('downloadButtons');
             downloadButtons.innerHTML = '';
 
-            if (data.htmlUrl || formData.format === 'html' || formData.format === 'both') {
+            if (data.html || formData.format === 'html' || formData.format === 'both') {
                 const btn = document.createElement('a');
-                btn.href = data.htmlUrl;
+                btn.href = data.htmlUrl || data.html;
+                btn.download = `roadmap-${Date.now()}.html`;
                 btn.className = 'download-btn';
-                btn.innerHTML = '📄 View HTML';
-                btn.target = '_blank';
+                btn.innerHTML = '📄 Download HTML';
                 downloadButtons.appendChild(btn);
             }
 
-            if (data.pdfUrl || formData.format === 'pdf' || formData.format === 'both') {
+            if (data.pdf || formData.format === 'pdf' || formData.format === 'both') {
                 const btn = document.createElement('a');
-                btn.href = data.pdfUrl;
+                btn.href = data.pdfUrl || data.pdf;
                 btn.download = `roadmap-${Date.now()}.pdf`;
                 btn.className = 'download-btn';
-                btn.innerHTML = '📋 Download PDF';
+                btn.innerHTML = '📋 Download PDF (Server)';
                 downloadButtons.appendChild(btn);
             }
+
+            // Add instant client-side PDF download button
+            const clientPdfBtn = document.createElement('button');
+            clientPdfBtn.type = 'button';
+            clientPdfBtn.className = 'download-btn';
+            clientPdfBtn.innerHTML = '⚡ Download PDF (Instant)';
+            clientPdfBtn.onclick = () => downloadPDFClientSide(formData);
+            downloadButtons.appendChild(clientPdfBtn);
 
             document.getElementById('results').style.display = 'block';
             document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
@@ -1005,19 +1559,24 @@
 
         function resetAndRegenerate() {
             document.getElementById('results').style.display = 'none';
-            generateRoadmap();
+            document.getElementById('generateBtn').click();
         }
 
         function resetForm() {
-            formFields.forEach(fieldId => {
-                const element = document.getElementById(fieldId);
-                if (element) element.value = '';
-            });
+            document.getElementById('university').value = '';
+            document.getElementById('major').value = '';
+            document.getElementById('minor').value = '';
+            document.getElementById('careerPath').value = '';
+            document.getElementById('fullName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('academicStrengths').value = '';
+            document.getElementById('careerInterests').value = '';
+            document.getElementById('motivations').value = '';
+            document.getElementById('background').value = '';
             uploadedFiles = [];
             uploadedFilesList.innerHTML = '';
             document.getElementById('results').style.display = 'none';
             document.getElementById('errorMsg').style.display = 'none';
-            localStorage.removeItem('collegeRoadmapFormData');
         }
 
         function showError(message) {
@@ -1038,10 +1597,26 @@
             }, 5000);
         }
 
-        // Event Listeners
-        document.getElementById('generateBtn').addEventListener('click', generateRoadmap);
-        document.getElementById('clearBtn').addEventListener('click', resetForm);
-        document.getElementById('regenerateBtn').addEventListener('click', resetAndRegenerate);
+        // Client-side PDF download using html2pdf.js
+        function downloadPDFClientSide(formData) {
+            const element = document.getElementById('results');
+            const opt = {
+                margin: 10,
+                filename: `roadmap-${formData.fullName}-${Date.now()}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+
+            // Create a copy of the results div to print
+            const printContent = element.cloneNode(true);
+            // Remove download buttons from the print version
+            const buttons = printContent.querySelector('.download-buttons');
+            if (buttons) buttons.remove();
+
+            html2pdf().set(opt).from(printContent).save();
+        }
     </script>
-</body>
-</html>
+
+
+<div id="d4aae672-9c87-47b3-90fa-f144f691f73d" data-gg-privacy-banner-anchor="true" style="z-index: 2147483645; position: relative; display: block; height: 0px; min-height: 0px; width: 0px; min-width: 0px; margin: 0px; padding: 0px; border: 0px;"></div></body></html>
