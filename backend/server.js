@@ -78,116 +78,44 @@ const dbAll = util.promisify(db.all.bind(db));
     await fs.mkdir(path.join(__dirname, '../database'), { recursive: true });
 })();
 
-// Claude AI Roadmap Generator
-async function generateRoadmapWithClaude(userData) {
+// Claude AI Roadmap Generator with timeout and retry
+async function generateRoadmapWithClaude(userData, retryCount = 0) {
     const apiKey = process.env.ANTHROPIC_API_KEY;
-    console.log('🔑 API Key check:', {
-        loaded: !!apiKey,
-        length: apiKey?.length,
-        prefix: apiKey?.substring(0, 15) + '...'
-    });
-
     const client = new Anthropic({ apiKey });
+    const MAX_RETRIES = 2;
+    const TIMEOUT_MS = 30000; // 30 second timeout
 
-    const prompt = `You are an expert academic advisor and career strategist. Generate a personalized 4-year college roadmap for the following student:
-
-STUDENT PROFILE:
+    const prompt = `You are an expert academic advisor. Generate a personalized 4-year college roadmap for:
 - Name: ${userData.fullName}
-- Email: ${userData.email}
-- Desired University: ${userData.university}
-- Desired Major: ${userData.major}
-${userData.minor ? `- Desired Minor: ${userData.minor}` : ''}
-- Target Career Path: ${userData.careerPath}
+- University: ${userData.university}
+- Major: ${userData.major}
+${userData.minor ? `- Minor: ${userData.minor}` : ''}
+- Career: ${userData.careerPath}
+- Strengths: ${userData.academicStrengths}
+- Interests: ${userData.careerInterests}
 
-PERSONAL INFORMATION:
-Academic Strengths: ${userData.academicStrengths}
-Career Interests & Goals: ${userData.careerInterests}
-${userData.motivations ? `Personal Motivations: ${userData.motivations}` : ''}
-${userData.background ? `Unique Background: ${userData.background}` : ''}
+Create comprehensive HTML roadmap with: executive summary, 4-year yearly plans, career pathways, skills to acquire, networking strategy, and resources.
 
-Please generate a comprehensive, structured roadmap that includes:
-
-1. EXECUTIVE SUMMARY (2-3 paragraphs)
-   - Brief overview of the student's path
-   - Key milestones and goals
-
-2. FRESHMAN YEAR PLAN
-   - Fall Semester: 4-5 recommended courses
-   - Spring Semester: 4-5 recommended courses
-   - Extracurriculars and activities to pursue
-   - Key milestones
-
-3. SOPHOMORE YEAR PLAN
-   - Fall Semester: 4-5 recommended courses
-   - Spring Semester: 4-5 recommended courses
-   - Internship/research opportunities
-   - Skills to develop
-
-4. JUNIOR YEAR PLAN
-   - Fall Semester: 4-5 recommended courses
-   - Spring Semester: 4-5 recommended courses
-   - Major internship/co-op placement
-   - Professional development
-
-5. SENIOR YEAR PLAN
-   - Fall Semester: 4-5 recommended courses
-   - Spring Semester: 4-5 recommended courses
-   - Career preparation
-   - Final projects/capstone
-
-6. CAREER PATHWAY
-   - 2-3 alternative career paths based on major
-   - Target companies for each path
-   - Entry-level positions
-   - Salary expectations
-   - Timeline to land roles
-
-7. SKILLS & CERTIFICATIONS TO ACQUIRE
-   - Technical skills (with timeline)
-   - Soft skills
-   - Recommended certifications
-   - Languages/specializations
-
-8. NETWORKING STRATEGY
-   - Alumni connections at target companies
-   - Professional organizations to join
-   - Conferences and events
-   - Informational interviews
-
-9. KEY MILESTONES & CHECKPOINTS
-   - Quarterly goals
-   - Year-end evaluations
-   - Adjustments to make if needed
-
-10. RESOURCES & OPPORTUNITIES
-    - Scholarships and funding
-    - Study abroad opportunities
-    - Mentorship programs
-    - Career services to utilize
-
-Format the response as clear, well-organized HTML that can be rendered directly in a browser. Use semantic HTML and inline CSS for styling with a clean, professional grayscale theme (black text on white background with subtle gray accents). Make it print-friendly and visually organized with clear sections, headings, and bullet points.
-
-IMPORTANT: Provide the complete HTML roadmap content directly as your response. Do not include any thinking or planning - just output the HTML directly.`;
+Output ONLY valid HTML. No thinking, explanations, or preamble.`;
 
     try {
-        console.log('📤 Sending request to Claude API (model: claude-opus-5)...');
+        console.log(`📤 API call (attempt ${retryCount + 1}/${MAX_RETRIES + 1})...`);
 
-        const message = await client.messages.create({
-            model: "claude-opus-5",
-            max_tokens: 8000,
-            messages: [
-                {
-                    role: "user",
-                    content: prompt
-                }
-            ]
-        });
+        // Create timeout promise
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('API timeout')), TIMEOUT_MS)
+        );
 
-        console.log('✅ Claude API Response received:', {
-            content_blocks: message.content?.map(c => ({ type: c.type, length: c.text?.length || c.thinking?.length || 0 }))
-        });
+        const message = await Promise.race([
+            client.messages.create({
+                model: "claude-3-5-sonnet-20241022", // Faster model
+                max_tokens: 4000, // Reduced for speed
+                messages: [{ role: "user", content: prompt }]
+            }),
+            timeoutPromise
+        ]);
 
-        // Find the text block (skip thinking blocks)
+        // Find text block (skip thinking)
         let textContent = null;
         for (const block of message.content || []) {
             if (block.type === 'text' && block.text) {
@@ -197,34 +125,23 @@ IMPORTANT: Provide the complete HTML roadmap content directly as your response. 
         }
 
         if (!textContent) {
-            // Check if it's only thinking without text
-            const hasThinking = message.content?.some(c => c.type === 'thinking');
-            if (hasThinking) {
-                console.warn('⚠️ Claude returned thinking block but no text. Using thinking as fallback.');
-                // Use thinking content if available
-                for (const block of message.content || []) {
-                    if (block.type === 'thinking' && block.thinking) {
-                        textContent = `<h2>Thinking Process</h2><pre>${block.thinking.substring(0, 8000)}</pre>`;
-                        break;
-                    }
-                }
-            }
+            throw new Error('No text content in response');
         }
 
-        if (typeof textContent !== 'string' || textContent.length === 0) {
-            console.error('❌ ERROR: Invalid content from Claude');
-            console.error('Content value:', textContent);
-            console.error('Full message:', JSON.stringify(message, null, 2).substring(0, 1000));
-            return '<h2>Error: Invalid AI Response</h2><p>Claude did not return valid text content. Please try again.</p>';
-        }
-
-        console.log(`✅ Generated ${textContent.length} characters of roadmap content`);
+        console.log(`✅ Generated ${textContent.length} chars`);
         return textContent;
 
     } catch (error) {
-        console.error('❌ Claude API Error:', error.message);
-        console.error('Error details:', error);
-        throw new Error(`Failed to generate roadmap: ${error.message}`);
+        console.error(`❌ Attempt ${retryCount + 1} failed:`, error.message);
+
+        // Retry on timeout or transient errors
+        if (retryCount < MAX_RETRIES && (error.message.includes('timeout') || error.message.includes('ERR'))) {
+            console.log(`🔄 Retrying... (${retryCount + 1}/${MAX_RETRIES})`);
+            await new Promise(r => setTimeout(r, 1000)); // 1s delay before retry
+            return generateRoadmapWithClaude(userData, retryCount + 1);
+        }
+
+        throw new Error(`Failed to generate roadmap after ${retryCount + 1} attempts: ${error.message}`);
     }
 }
 
